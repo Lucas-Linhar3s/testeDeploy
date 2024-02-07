@@ -20,6 +20,12 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
+type Response struct {
+	DeviceID *string `json:"deviceId"`
+	Action   *string `json:"action"`
+	Value    *string `json:"value"`
+}
+
 func List(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	errorResponse := ErrorResponse{
@@ -30,6 +36,22 @@ func List(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(errorResponse)
+}
+
+func TesteTMS(w http.ResponseWriter, r *http.Request) {
+
+	request, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("Deu Erro %v", err)
+	}
+	var response []Response
+
+	if err = json.Unmarshal(request, &response); err != nil {
+		log.Printf("Deu Erro %v", err)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }
 
 func Criar(w http.ResponseWriter, r *http.Request) {

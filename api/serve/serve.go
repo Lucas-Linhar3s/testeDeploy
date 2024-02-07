@@ -23,7 +23,8 @@ func Servidor() {
 	r.Use(cors.AllowAll().Handler)
 	// ROTAS DE PRODUTOS
 	r.Group(func(r chi.Router) {
-		r.Get("/subscribe", controller.List)                                           // LISTAR TODOS OS PRODUTOS DO BANCO
+		r.Get("/subscribe", controller.List)
+		r.Post("/teste", controller.TesteTMS)                                          // LISTAR TODOS OS PRODUTOS DO BANCO
 		r.Get("/produtos/listar/{id}", middlewares.Autenticar(controller.BuscarID))    // FILTRAR PRODUTOS POR ID
 		r.Get("/produtos/filtrar/{preco}", middlewares.Autenticar(controller.Filtrar)) // FILTRAR PRODUTOS POR PREÇO
 		r.Post("/produtos/criar", controller.Criar)                                    // CRIA NOVOS PRODUTOS
